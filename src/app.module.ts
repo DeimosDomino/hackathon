@@ -14,7 +14,7 @@ import * as env from "env-var";
         CacheModule.register(<RedisClientOptions>{
             store: redisStore,
             socket: {
-                host: env.get('REDIS_HOST').default('redis').asString(),
+                host: env.get('REDIS_HOST').default('localhost').asString(),
                 port: env.get('REDIS_PORT').default(6379).asPortNumber(),
             },
             ttl: 10 * 60
