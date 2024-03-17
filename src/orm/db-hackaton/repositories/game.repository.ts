@@ -20,11 +20,10 @@ export class GameRepository extends Repository<Game>{
     }
 
     getWeights(): Promise<GameWithFinalWeights[]>{
-        const queryBuilder = this.createQueryBuilder();
+        const queryBuilder = this.createQueryBuilder('g');
         const query = queryBuilder
             .select('g.id', 'id')
             .addSelect('g.weight * p.recommendation_rate', 'finalWeight')
-            .from('game', 'g')
             .leftJoin('provider', 'p', 'g.provider_id = p.id')
         return query.execute();
     }

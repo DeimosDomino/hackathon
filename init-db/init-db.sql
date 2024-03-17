@@ -23,6 +23,7 @@ create table "user"
 alter table "user"
     owner to hackaton_user;
 
+
 INSERT INTO public."user" (id, name) VALUES (1, 'Test Testov');
 
 INSERT INTO public.provider (id, name, recommendation_rate) VALUES (1, 'Spribe', 1);
@@ -235,3 +236,20 @@ INSERT INTO public.game (id, name, provider_id, config, weight) VALUES (98, 'Spa
 INSERT INTO public.game (id, name, provider_id, config, weight) VALUES (99, 'Crypt of the Vampires', 507138, '{"url": "https://game.igramba.com/siteng/gisgame?game_uuid=d6e3d25646e8491abbe7ca22b3f4cbde", "image": "https://staging.slotegrator.com/api/index.php/image/get?hash=8c84172f4626224c1dab3e80c63581b4.png", "expUsing": null, "has_lobby": 0, "dimensions": {}, "aspect_ratio": "16:9", "wagerPercent": 100, "concatBetsWins": null}', 1);
 INSERT INTO public.game (id, name, provider_id, config, weight) VALUES (100, '4 of a King', 507138, '{"url": "https://game.igramba.com/siteng/gisgame?game_uuid=94ca17909c6d9b94d0902cbdf186ad4dcd598a28", "type": "slots", "image": "https://staging.slotegrator.com/api/images/games/Endorphina/079430eee333d319e4e2f8d99c3fa10c.png", "provider": "Endorphina", "has_lobby": 0, "is_mobile": 1, "dimensions": [], "technology": "HTML5", "aspect_ratio": "16:9", "wagerPercent": 100}', 1);
 INSERT INTO public.game (id, name, provider_id, config, weight) VALUES (1, 'Casillero del Diablo', 2240, '{"url": " ", "expUsing": true, "int_name": "Casillero del Diablo", "aspect_ratio": "16:9", "wagerPercent": 100, "concatBetsWins": true}', 1.5);
+
+create table game_history
+(
+    id         bigserial
+        constraint "PK_0e74b90c56b815ed54e90a29f1a"
+            primary key,
+    created_at timestamp with time zone default '2024-03-17 08:28:51.086953+00'::timestamp with time zone not null,
+    user_id    bigint                                                                                     not null
+        constraint "FK_23b52151ea534c59dc15bd0dd12"
+            references "user",
+    game_id    bigint                                                                                     not null
+        constraint "FK_d09df292c60e6f9438f84923343"
+            references game
+);
+
+alter table game_history
+    owner to hackaton_user;
