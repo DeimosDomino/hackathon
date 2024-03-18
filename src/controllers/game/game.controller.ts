@@ -28,7 +28,7 @@ export class GameController{
     }
 
     @Get('/')
-    @UseInterceptors(CacheInterceptor)
+    //@UseInterceptors(CacheInterceptor)
     async findAll(@Query() query: GameFindAllDto){
         const {page = 1, perPage = 10, sort = 'id', sortKind = 'desc', name, ...params} = query;
 

@@ -28,7 +28,7 @@ export class GameHistoryController {
     }
 
     @Get('/')
-    @UseInterceptors(CacheInterceptor)
+    //@UseInterceptors(CacheInterceptor)
     async findAll(@Query() query: GameHistoryFindAllDto){
         const {page = 1, perPage = 10, sort = 'id', sortKind = 'desc', ...params} = query;
 

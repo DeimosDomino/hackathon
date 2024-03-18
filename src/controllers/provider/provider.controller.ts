@@ -30,7 +30,7 @@ export class ProviderController {
     }
 
     @Get('/')
-    @UseInterceptors(CacheInterceptor)
+    //@UseInterceptors(CacheInterceptor)
     async findAll(@Query() query: ProvidersFindAllDto){
         const {page = 1, perPage = 10, sort = 'id', sortKind = 'desc', name, ...params} = query;
 
