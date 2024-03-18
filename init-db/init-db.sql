@@ -127,7 +127,7 @@ create table game
         constraint "PK_352a30652cd352f552fef73dec5"
             primary key,
     name        varchar           not null,
-    weight      integer default 1 not null,
+    weight      double precision default 1 not null,
     provider_id bigint            not null
         constraint "FK_7e25b59d3d4012016f4646c0e27"
             references provider,
