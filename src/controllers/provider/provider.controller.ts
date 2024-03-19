@@ -13,7 +13,7 @@ import {
 import {GameRepository} from "../../orm/db-hackaton/repositories";
 import {ProvidersFindAllDto} from "./dto";
 import {ILike, Repository} from "typeorm";
-import {CacheInterceptor} from "@nestjs/cache-manager";
+import {CACHE_MANAGER, CacheInterceptor, CacheStore} from "@nestjs/cache-manager";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Provider} from "../../orm";
 
@@ -22,7 +22,7 @@ import {Provider} from "../../orm";
 @Controller('/provider')
 export class ProviderController {
     @InjectRepository(Provider) private providerRepository: Repository<Provider>
-
+    @Inject(CACHE_MANAGER) private cacheManager: CacheStore
 
     @Get('/:id')
     findById(@Param('id', ParseIntPipe) id: number){
@@ -60,6 +60,7 @@ export class ProviderController {
         @Body('recommendation_rate', ParseFloatPipe) recommendationRate: number
     ){
         await this.providerRepository.update({id}, {recommendationRate});
+        await this.cacheManager.del('recommendation_ranges')
         return this.providerRepository.findOne({where: {id}});
     }
 

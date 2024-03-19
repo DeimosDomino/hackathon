@@ -13,14 +13,14 @@ import {
 import {GameHistoryRepository} from "../../orm/db-hackaton/repositories";
 import {GameHistoryFindAllDto} from "./dto";
 import {ILike, LessThan, MoreThan} from "typeorm";
-import {CacheInterceptor} from "@nestjs/cache-manager";
+import {CACHE_MANAGER, CacheInterceptor, CacheStore} from "@nestjs/cache-manager";
 
 
 
 @Controller('/game_history')
 export class GameHistoryController {
     @Inject(GameHistoryRepository) private gameHistoryRepository: GameHistoryRepository;
-
+    @Inject(CACHE_MANAGER) private cacheManager: CacheStore
 
     @Get('/:id')
     findById(@Param('id', ParseIntPipe) id: number){
@@ -57,6 +57,7 @@ export class GameHistoryController {
         @Body('game_id', ParseIntPipe) gameId: number
     ){
         const {identifiers: [{id}]} = await this.gameHistoryRepository.insert({userId, gameId});
+        await this.cacheManager.del('recommendation_ranges')
         return this.gameHistoryRepository.find({where: {id}})
     }
 

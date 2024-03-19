@@ -13,14 +13,14 @@ import {
 import {GameRepository} from "../../orm/db-hackaton/repositories";
 import {GameFindAllDto} from "./dto";
 import {ILike} from "typeorm";
-import {CacheInterceptor} from "@nestjs/cache-manager";
+import {CACHE_MANAGER, CacheInterceptor, CacheStore} from "@nestjs/cache-manager";
 
 
 
 @Controller('/game')
 export class GameController{
     @Inject(GameRepository) private gameRepository: GameRepository;
-
+    @Inject(CACHE_MANAGER) private cacheManager: CacheStore;
 
     @Get('/:id')
     findById(@Param('id', ParseIntPipe) id: number){
@@ -59,6 +59,7 @@ export class GameController{
         @Body('weight', ParseFloatPipe) weight: number
     ){
         await this.gameRepository.update({id}, {weight});
+        await this.cacheManager.del('recommendation_ranges')
         return this.gameRepository.findOne({where: {id}, relations: ['provider']});
     }
 
