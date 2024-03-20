@@ -8,12 +8,11 @@ import {
     ParseIntPipe,
     Put,
     Query,
-    UseInterceptors
 } from "@nestjs/common";
 import {GameRepository} from "../../orm/db-hackaton/repositories";
 import {GameFindAllDto} from "./dto";
 import {ILike} from "typeorm";
-import {CACHE_MANAGER, CacheInterceptor, CacheStore} from "@nestjs/cache-manager";
+import {CACHE_MANAGER, CacheStore} from "@nestjs/cache-manager";
 
 
 
@@ -28,7 +27,6 @@ export class GameController{
     }
 
     @Get('/')
-    //@UseInterceptors(CacheInterceptor)
     async findAll(@Query() query: GameFindAllDto){
         const {page = 1, perPage = 10, sort = 'id', sortKind = 'desc', name, ...params} = query;
 

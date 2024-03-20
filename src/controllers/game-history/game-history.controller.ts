@@ -4,16 +4,12 @@ import {
     Get,
     Inject,
     Param,
-    ParseFloatPipe,
     ParseIntPipe, Post,
-    Put,
     Query,
-    UseInterceptors
 } from "@nestjs/common";
 import {GameHistoryRepository} from "../../orm/db-hackaton/repositories";
 import {GameHistoryFindAllDto} from "./dto";
-import {ILike, LessThan, MoreThan} from "typeorm";
-import {CACHE_MANAGER, CacheInterceptor, CacheStore} from "@nestjs/cache-manager";
+import {CACHE_MANAGER, CacheStore} from "@nestjs/cache-manager";
 
 
 
@@ -28,7 +24,6 @@ export class GameHistoryController {
     }
 
     @Get('/')
-    //@UseInterceptors(CacheInterceptor)
     async findAll(@Query() query: GameHistoryFindAllDto){
         const {page = 1, perPage = 10, sort = 'id', sortKind = 'desc', ...params} = query;
 
